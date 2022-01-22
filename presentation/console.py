@@ -40,6 +40,24 @@ class Console(object):
         for prod in prods:
             print(prod)
 
+    def __filtru_to_file(self):
+        filtru_text = input("Introduceti string ul: ")
+        filtru_numar = float(input("Introduceti numarul: "))
+        prods = self.__srv_prod.filtrare_prod(filtru_text, filtru_numar)
+        with open('output.txt', 'w') as f:
+            for prod in prods:
+                f.write(str(prod))
+                f.write('\n')
+        print('output.txt')
+
+    def __add_random_products(self):
+        try:
+            user_input = int(input("Adaugati numarul de intrari: "))
+        except ValueError:
+            print("valoare gresita boule")
+            return
+        self.__srv_prod.create_products_randomly(user_input)
+
     def run(self):
         while True:
             cmd = input(">>>")
@@ -51,6 +69,10 @@ class Console(object):
                 self.__delete_produse_ui()
             elif cmd == "filt":
                 self.__filtru_prod()
+            elif cmd == 'filtext':
+                self.__filtru_to_file()
+            elif cmd == "random":
+                self.__add_random_products()
             elif cmd == "exit":
                 return
             elif cmd == " ":

@@ -2,6 +2,7 @@ from domain.entitati import Produse
 from domain.DTOs import ProduseDTO
 from repository.repo import FileRepoProduse
 from validation.validator import ValidatorProd
+import random
 
 
 class ServiceProd(object):
@@ -75,14 +76,20 @@ class ServiceProd(object):
                     ok += 1
                 elif str(filtru_numar) in str(items[1]):
                     ok = 0
-        if ok > 0:
+        if ok < 0:
             sorted_dto = sorted(descrieri_produse, key=lambda prod: prod.get_pret_DTO(), reverse=True)
-            print('filtru_text')
-            return sorted_dto
-        elif ok < 0:
-            sorted_dto_2 = sorted(descrieri_produse, key=lambda prod: prod.get_desc_DTO(), reverse=False)
             print('filtru_numar')
+            return sorted_dto
+        elif ok > 0:
+            sorted_dto_2 = sorted(descrieri_produse, key=lambda prod: prod.get_desc_DTO(), reverse=False)
+            print('filtru_text')
             return sorted_dto_2
         #return descrieri_produse[:]
 
+    def create_products_randomly(self, user_input):
+        rand_lista = ['Aliment de baza', 'Carne', 'Mezel', 'Pula mea nush']
+        for _ in range(user_input):
+            _produs = Produse(random.randrange(100,125), random.choice(rand_lista), random.randrange(1,1200))
+            self.__valid_prod.valid_produs(_produs)
+            self.__repo_prod.add_produs_to_file(_produs)
 
